@@ -1,4 +1,5 @@
 from tkinter import Label, Button, filedialog
+from lib import sync
 class Window:
     def __init__(self, master):
         self.root = master
@@ -9,8 +10,23 @@ class Window:
         self.label1.pack()
         self.buttonSelect = Button(master, text="Select Path", command=self.selectPath)
         self.buttonSelect.pack()
+        self.label2 = Label(master, text="Selecteaza al doilea folder:")
+        self.label2.pack()
+        self.buttonSelect = Button(master, text="Select Path", command=self.selectPath2)
+        self.buttonSelect.pack()
+        self.syncButton = Button(master, text="Sincronizeaza", command=self.syncronFolder)
+        self.syncButton.pack()
 
     def selectPath(self):
         dirname = filedialog.askdirectory()
-        print(dirname)
+        self.label1['text'] = dirname
         return
+    def selectPath2(self):
+        dirname = filedialog.askdirectory()
+        self.label2['text'] = dirname
+        return
+    def syncronFolder(self):
+        folder1 = sync.Folder(self.label1['text'])
+        folder2 = sync.Folder(self.label2['text'])
+        folder1.sync(folder2.path)
+
