@@ -1,4 +1,4 @@
-from tkinter import Label, Button, filedialog
+from tkinter import Label, Button, filedialog, messagebox
 from lib import sync
 class Window:
     def __init__(self, master):
@@ -14,7 +14,7 @@ class Window:
         self.label2.pack()
         self.buttonSelect = Button(master, text="Select Path", command=self.selectPath2)
         self.buttonSelect.pack()
-        self.syncButton = Button(master, text="Sincronizeaza", command=self.syncronFolder)
+        self.syncButton = Button(master, text="Sincronizeaza", command=self.askUserBeforeDelete)
         self.syncButton.pack()
 
     def selectPath(self):
@@ -29,4 +29,10 @@ class Window:
         folder1 = sync.Folder(self.label1['text'])
         folder2 = sync.Folder(self.label2['text'])
         folder1.sync(folder2.path)
-
+    def askUserBeforeDelete(self):
+        "This function is for dialog to ask user if he is sure."
+        messagebox.askquestion("Warning!", "This action will remove all files from destination folder. Are you sure?", icon="warning")
+        if 'yes':
+            self.syncronFolder()
+        else:
+            return 0
